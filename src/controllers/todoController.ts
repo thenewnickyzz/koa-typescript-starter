@@ -1,13 +1,20 @@
-import Router from 'koa-router'
+import { BodyParam, Get, JsonController, Post } from 'routing-controllers'
 
-const router = new Router({
-    prefix: '/todo',
-})
-
-router.get('todoList', '/', (ctx) => {
-    ctx.response.body = {
-        todoList: [],
+@JsonController('/todo')
+class TodoController {
+    @Get('/')
+    getAll() {
+        return {
+            todos: [],
+        }
     }
-})
 
-export default router
+    @Post('/')
+    create(@BodyParam('todo') todo: string) {
+        return {
+            message: `New todo added: ${todo}`,
+        }
+    }
+}
+
+export default TodoController
